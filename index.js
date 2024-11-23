@@ -7,7 +7,7 @@ const URL = require("./models/url");
 const { timeStamp } = require("console");
 const logger = require("./routes/user");
 const cookieParser = require("cookie-parser");
-const restrictToLoggedInUserOnly = require("./middlewares/auth");
+const {restrictToLoggedInUserOnly,checkAuth} = require("./middlewares/auth");
 const app = express();
 const port = 8001;
 
@@ -24,7 +24,7 @@ app.use("/signup",logger);
 
 app.use("/url", restrictToLoggedInUserOnly, urlRoute); 
 
-app.use("/",router);
+app.use("/",checkAuth, router);
 
 
 

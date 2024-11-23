@@ -3,7 +3,8 @@ const URL = require("../models/url");
 const router = express.Router();
 
 router.get("/",async (req,res)=>{
-    const data = await URL.find({});;
+    if(!req.user){return res.redirect("/login");}
+    const data = await URL.find({createdBy: req.user._id});
     res.render("home.ejs",{data});
 })
 
