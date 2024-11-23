@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter link</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <% if(locals.id){%>
+
+        <p>URL Generated : http://localhost:8001/url/<%=id%></p>
+
+    <% } %>
+    <form action="/url" method="post">
+        <label for="url">Enter original link: </label>
+        <input type="text" id="url" name="url" placeholder="https://www.example.com">
+        <button>Generate</button>
+    </form>
+
+    <% if(locals.data){%>
+    <table>
+        <thead>
+            <th>S.No.</th>
+            <th>ShortId</th>
+            <th>RedirectURL</th>
+            <th>Clicks</th>
+        </thead>
+
+        <tbody>
+            <% data.forEach((i,index)=>{ %>
+            <tr>
+                <td><%= index+1 %></td>
+                <td><%= i.shortId %></td>
+                <td><%= i.redirectURL %></td>
+                <td><%= i.visitHistory.length %></td>
+            </tr>    
+            <% }) %>
+        </tbody>
+    </table>
+    <% } %>
+</body>
+</html>

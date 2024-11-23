@@ -10,9 +10,28 @@ async function generate(req,res) {
         redirectURL: body.url,
         visitHistory:[],
     });
-    return res.json({id: shortID})
+    const data = await URL.find({});
+    return res.render("home.ejs",{id:shortID, data:data});
 ;}
+
+async function updateClick(req,res){
+    const shortId = req.params.shortID;
+    const entry = await URL.findOneAndUpdate({
+        shortId
+    },{$push:{
+        visitHistory: {timeStamp:Date.now()},
+    }})
+
+    if(!entry){
+        res.status(404).send("Error");
+    }
+    else{
+        console.log(entry);
+    }
+    res.redirect(`${entry.redirectURL}`);
+}
 
 module.exports = {
     generate,
+    updateClick,
 }
